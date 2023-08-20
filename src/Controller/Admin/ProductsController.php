@@ -38,7 +38,7 @@ class ProductsController extends AbstractController
             $images = $productForm->get('images')->getData();
             foreach ($images as $image) {
                 // on definie le dossier de destination
-                $folder = 'products;';
+                $folder = 'products';
                 // on appelle le service d'ajout
                 $fichier = $pictureService->add($image, $folder, 300, 300);
                 die;
