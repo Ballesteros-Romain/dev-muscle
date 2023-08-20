@@ -1,0 +1,12 @@
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{label}} alert-dismissible" role="alert">
+            <button type="button" class=" btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+            <div class="alert-message">
+                {{message|raw}}
+            </div>
+        </div>
+    {% endfor %}
+    
+{% endfor %}
+{# ce bout de code permet d'afficher tous les messages d'alertes quel qu'ils soient dans toutes les pages  #}

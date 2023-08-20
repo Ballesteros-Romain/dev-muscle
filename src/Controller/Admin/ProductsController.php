@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Controller\Admin;
+
+use App\Entity\Product;
+use App\Form\ProductFormType;
+use App\Service\PictureService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
+#[Route('/admin/produits', name: 'admin_products_')]
+class ProductsController extends AbstractController
+{
+    #[Route('/', name: 'index')]
+    public function index(): Response
+    {
+        
+        return $this->render('admin/products/index.html.twig');
+    }
+
+     #[Route('/ajout', name: 'add')]
+    public function add(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        // on cree un nouveau produit
+        $product = new Product();
+        // on cree le formulaire
+        $productForm = $this->createForm(ProductFormType::class, $product);
+        // on traite la requete du form
+        $productForm -> handleRequest($request) ;
+        // on verifie si le formulaire est soumis ET valide (dans cet ordre)
+        if($productForm->isSubmitted() && $productForm->isValid()){
+            // on recupere les images
+            $images = $productForm->get('images')->getData();
+            foreach ($images as $image) {
+                // on definie le dossier de destination
+                $folder = 'products;';
+                // on appelle le service d'ajout
+                $fichier = $pictureService->add($image, $folder, 300, 300);
+                die;
+            }
+            // on genere le slug
+            $slug = $slugger->slug($product->getName());
+            $product->setSlug($slug);
+            // on arrondi le prix 
+            $prix = $product->getPrice()*100;
+            $product->setPrice($prix);
+            // on stocke
+            $em->persist($product);
+            $em->flush();
+            $this->addFlash('success', 'Produits ajouté avec succès');
+            // on redirige
+            return $this->redirectToRoute('admin_products_index');
+        }
+
+        return $this->render('admin/products/add.html.twig', [
+            'productForm' => $productForm->createView()
+        ]);
+
+    }
+
+     #[Route('/edition/{id}', name: 'edit')]
+    public function edit(Product $product, Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    {
+        // on verifie si l'utilisateur peut editer avec le voter
+        $this->denyAccessUnlessGranted('PRODUCT_EDIT', $product);
+        // on divise le prix par 100 
+            $prix = $product->getPrice() / 100;
+            $product->setPrice($prix);
+        // on cree le formulaire
+        $productForm = $this->createForm(ProductFormType::class, $product);
+        // on traite la requete du form
+        $productForm -> handleRequest($request) ;
+        // on verifie si le formulaire est soumis ET valide (dans cet ordre)
+        if($productForm->isSubmitted() && $productForm->isValid()){
+            // on genere le slug
+            $slug = $slugger->slug($product->getName());
+            $product->setSlug($slug);
+            // on arrondi le prix 
+            $prix = $product->getPrice()*100;
+            $product->setPrice($prix);
+            // on stocke
+            $em->persist($product);
+            $em->flush();
+            $this->addFlash('success', 'Produits modifié avec succès');
+            // on redirige
+            return $this->redirectToRoute('admin_products_index');
+        }
+
+        return $this->render('admin/products/edit.html.twig', [
+            'productForm' => $productForm->createView()
+        ]);
+    }
+
+     #[Route('/suppression/{id}', name: 'delete')]
+    public function delete(Product $product): Response
+    {
+        // on verifie si l'utilisateur peut supprimer avec le voter
+        $this->denyAccessUnlessGranted('PRODUCT_DELETE', $product);
+        return $this->render('admin/products/index.html.twig');
+    }
+}
