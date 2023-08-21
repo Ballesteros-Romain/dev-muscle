@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Image;
 use App\Entity\Product;
 use App\Form\ProductFormType;
 use App\Service\PictureService;
@@ -41,7 +42,10 @@ class ProductsController extends AbstractController
                 $folder = 'products';
                 // on appelle le service d'ajout
                 $fichier = $pictureService->add($image, $folder, 300, 300);
-                die;
+                
+                $img = new Image();
+                $img->setName($fichier);
+                $product->addImage($img);
             }
             // on genere le slug
             $slug = $slugger->slug($product->getName());

@@ -132,7 +132,7 @@ class Product
     public function addImage(Image $image): static
     {
         if (!$this->images->contains($image)) {
-            $this->images->add($image);
+            $this->images = $image;
             $image->setProduct($this);
         }
 
