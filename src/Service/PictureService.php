@@ -72,7 +72,7 @@ class PictureService
 
         // on cree le dossier de destionation s'il n'exsite pas
         if(!file_exists($path . '/mini/')){
-            mkdir( $path.'/mini/',755, true);
+            mkdir( $path.'/mini/',0755, true);
         }
 
         // on stocke l'image recadrer
