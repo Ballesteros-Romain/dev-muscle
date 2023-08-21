@@ -41,7 +41,7 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, orphanRemoval: true, cascade:['persist'])]
     private Collection $images;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderDetail::class)]
@@ -132,7 +132,7 @@ class Product
     public function addImage(Image $image): static
     {
         if (!$this->images->contains($image)) {
-            $this->images = $image;
+            $this->images[] = ($image);
             $image->setProduct($this);
         }
 
