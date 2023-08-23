@@ -6,8 +6,10 @@ use App\Entity\Image;
 use App\Entity\Product;
 use App\Form\ProductFormType;
 use App\Service\PictureService;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,7 +70,7 @@ class ProductsController extends AbstractController
     }
 
      #[Route('/edition/{id}', name: 'edit')]
-    public function edit(Product $product, Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    public function edit(Product $product, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService): Response
     {
         // on verifie si l'utilisateur peut editer avec le voter
         $this->denyAccessUnlessGranted('PRODUCT_EDIT', $product);
@@ -81,6 +83,18 @@ class ProductsController extends AbstractController
         $productForm -> handleRequest($request) ;
         // on verifie si le formulaire est soumis ET valide (dans cet ordre)
         if($productForm->isSubmitted() && $productForm->isValid()){
+              // on recupere les images
+            $images = $productForm->get('images')->getData();
+            foreach ($images as $image) {
+                // on definie le dossier de destination
+                $folder = 'products';
+                // on appelle le service d'ajout
+                $fichier = $pictureService->add($image, $folder, 300, 300);
+                
+                $img = new Image();
+                $img->setName($fichier);
+                $product->addImage($img);
+            }
             // on genere le slug
             $slug = $slugger->slug($product->getName());
             $product->setSlug($slug);
@@ -96,9 +110,11 @@ class ProductsController extends AbstractController
         }
 
         return $this->render('admin/products/edit.html.twig', [
-            'productForm' => $productForm->createView()
+            'productForm' => $productForm->createView(),
+            'product'=> $product
         ]);
     }
+
 
      #[Route('/suppression/{id}', name: 'delete')]
     public function delete(Product $product): Response
@@ -106,5 +122,29 @@ class ProductsController extends AbstractController
         // on verifie si l'utilisateur peut supprimer avec le voter
         $this->denyAccessUnlessGranted('PRODUCT_DELETE', $product);
         return $this->render('admin/products/index.html.twig');
+    }
+
+    #[Route('/suppression/image/{id}', name: 'delete_image', methods:['DELETE'])]
+    public function deleteImage(Image $image, Request $request, EntityManagerInterface $em, PictureService $pictureService): JsonResponse
+    {
+        // on recupere le contenu de la requete
+        $data = json_decode($request->getContent(), true);
+
+    if(isset($data['data-token']) && $this->isCsrfTokenValid('delete' . $image->getId(), $data['data-token'])){
+        
+    // le token csrf est valide
+    // alors on recuepere le nom de l'image
+    $nom =$image->getName();
+
+    if($pictureService->delete($nom, 'products', 300, 300)){
+        // on supprime l'image de la base dedonnées
+        $em->remove($image);
+        $em->flush();
+        return new JsonResponse(['success' => true], 200);
+        }
+         // la suppression a echoué
+        return new JsonResponse(['error' => 'Erreur de suppression'], 400);
+        }
+        return new JsonResponse(['error' => 'Token invalide'], 400);
     }
 }

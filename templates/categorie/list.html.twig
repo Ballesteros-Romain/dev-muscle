@@ -9,7 +9,7 @@
             {% for product in products %}
                 <div class="col-3">
                     <article class="card h-100">
-                        <img src="{{asset('upload/products/mini/300x300-' ~ product.images[0].name)}}" class="card-img-top" alt="...">
+                        <img src="{{asset('assets/upload/products/mini/300x-300-' ~ product.images[0].name)}}" class="card-img-top" alt="...">
                         <div class="card-body">
                              <h2 class="card-title">{{product.name}}</h2>
                              <div class="card-text">{{product.descripton}}</div>
