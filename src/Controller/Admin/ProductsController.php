@@ -124,27 +124,51 @@ class ProductsController extends AbstractController
         return $this->render('admin/products/index.html.twig');
     }
 
-    #[Route('/suppression/image/{id}', name: 'delete_image', methods:['DELETE'])]
-    public function deleteImage(Image $image, Request $request, EntityManagerInterface $em, PictureService $pictureService): JsonResponse
-    {
-        // on recupere le contenu de la requete
-        $data = json_decode($request->getContent(), true);
+    // #[Route('/suppression/image/{id}', name: 'delete_image', methods:['DELETE'])]
+    // public function deleteImage(Image $image, Request $request, EntityManagerInterface $em, PictureService $pictureService): JsonResponse
+    // {
+    //     // on recupere le contenu de la requete
+    //     $data = json_decode($request->getContent(), true);
 
-    if(isset($data['data-token']) && $this->isCsrfTokenValid('delete' . $image->getId(), $data['data-token'])){
+    // if(isset($data['data-token']) && $this->isCsrfTokenValid('delete' . $image->getId(), $data['data-token'])){
         
-    // le token csrf est valide
-    // alors on recuepere le nom de l'image
-    $nom =$image->getName();
+    // // le token csrf est valide
+    // // alors on recuepere le nom de l'image
+    // $nom =$image->getName();
 
-    if($pictureService->delete($nom, 'products', 300, 300)){
-        // on supprime l'image de la base dedonnées
-        $em->remove($image);
-        $em->flush();
-        return new JsonResponse(['success' => true], 200);
+    // if($pictureService->delete($nom, 'products', 300, 300)){
+    //     // on supprime l'image de la base dedonnées
+    //     $em->remove($image);
+    //     $em->flush();
+    //     return new JsonResponse(['success' => true], 200);
+    //     }
+    //      // la suppression a echoué
+    //     return new JsonResponse(['error' => 'Erreur de suppression'], 400);
+    //     }
+    //     return new JsonResponse(['error' => 'Token invalide'], 400);
+    // }
+    
+
+    #[Route('/suppression/image/{id}', name: 'delete_image', methods: ['DELETE'])]
+public function deleteImage(Image $image, Request $request, EntityManagerInterface $em, PictureService $pictureService): JsonResponse
+{
+    $data = json_decode($request->getContent(), true);
+
+    if (isset($data['_token']) && $this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])) {
+        $nom = $image->getName();
+
+        if ($pictureService->delete($nom, 'products', 300, 300)) {
+            $em->remove($image);
+            $em->flush();
+            return new JsonResponse(['success' => true], 200);
         }
-         // la suppression a echoué
+
         return new JsonResponse(['error' => 'Erreur de suppression'], 400);
-        }
-        return new JsonResponse(['error' => 'Token invalide'], 400);
     }
+
+    return new JsonResponse(['error' => 'Token invalide'], 400);
+
+}
+
+
 }
