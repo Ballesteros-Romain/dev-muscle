@@ -1,4 +1,5 @@
 let links = document.querySelectorAll("[data-delete]");
+console.log(links);
 
 for (let link of links) {
   link.addEventListener("click", function (e) {

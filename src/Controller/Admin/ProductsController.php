@@ -53,8 +53,9 @@ class ProductsController extends AbstractController
             $slug = $slugger->slug($product->getName());
             $product->setSlug($slug);
             // on arrondi le prix 
-            $prix = $product->getPrice()*100;
-            $product->setPrice($prix);
+            // $prix = $product->getPrice()*100;   // car dans le product form type on a mis un moneytype
+            // $product->setPrice($prix);
+           
             // on stocke
             $em->persist($product);
             $em->flush();
@@ -75,8 +76,8 @@ class ProductsController extends AbstractController
         // on verifie si l'utilisateur peut editer avec le voter
         $this->denyAccessUnlessGranted('PRODUCT_EDIT', $product);
         // on divise le prix par 100 
-            $prix = $product->getPrice() / 100;
-            $product->setPrice($prix);
+            // $prix = $product->getPrice() / 100;
+            // $product->setPrice($prix);  Idem moneytype
         // on cree le formulaire
         $productForm = $this->createForm(ProductFormType::class, $product);
         // on traite la requete du form
@@ -99,8 +100,8 @@ class ProductsController extends AbstractController
             $slug = $slugger->slug($product->getName());
             $product->setSlug($slug);
             // on arrondi le prix 
-            $prix = $product->getPrice()*100;
-            $product->setPrice($prix);
+            // $prix = $product->getPrice()*100;
+            // $product->setPrice($prix);
             // on stocke
             $em->persist($product);
             $em->flush();
