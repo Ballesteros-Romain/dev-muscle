@@ -21,40 +21,58 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-singup'
                 ],
-                'label' => 'E-mail'
+                'label' => 'E-mail',
+                'label_attr' => [
+                    'class' => 'label-singup', // Classe pour le label
+                ],
             ])
             ->add('lastname', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-singup'
                 ],
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'label_attr' => [
+                    'class' => 'label-singup', // Classe pour le label
+                ],
             ])
             ->add('firstname', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-singup'
                 ],
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'label_attr' => [
+                    'class' => 'label-singup', // Classe pour le label
+                ],
             ])
             ->add('adress', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-singup'
                 ],
-                'label' => 'Adresse'
+                'label' => 'Adresse',
+                'label_attr' => [
+                    'class' => 'label-singup', // Classe pour le label
+                ],
 
             ])
             ->add('city', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-singup'
                 ],
-                'label' => 'Ville'
+                'label' => 'Ville',
+                'label_attr' => [
+                    'class' => 'label-singup', // Classe pour le label
+                ],
             ])
             ->add('zipcode', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-singup'
                 ],
-                'label' => 'Code postal'
+                'label' => 'Code postal',
+                'label_attr' => [
+                    'class' => 'label-singup', // Classe pour le label
+                ],
             ])
             ->add('RGPDConsent', CheckboxType::class, [
                 'mapped' => false,
@@ -63,14 +81,17 @@ class RegistrationFormType extends AbstractType
                         'message' => 'You should agree to our terms.',
                     ]),
                 ],
-                'label' => "En m'inscrivant à ce site j'accepte les CGV"
+                'label' => "En m'inscrivant à ce site j'accepte les CGV",
+                // 'label_attr' => [
+                //     'class' => 'label-singup', // Classe pour le label
+                // ],
 
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password','class' => 'form-control'],
+                'attr' => ['autocomplete' => 'new-password','class' => 'form-singup'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -82,7 +103,10 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'label' => 'Mot de passe'
+                'label' => 'Mot de passe',
+                'label_attr' => [
+                    'class' => 'label-singup', // Classe pour le label
+                ],
 
             ])
         ;

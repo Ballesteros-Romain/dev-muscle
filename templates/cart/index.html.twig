@@ -30,7 +30,7 @@
                     <td>{{ element.quantity }}</td>
                     <td>{{ element.quantity * element.product.price / 100 }} €</td>
                     <td>
-                        <a href="{{path('cart_add', {id: element.product.id})}}" class="btn btn-success">+</a>
+                        <a href="{{path('cart_more', {id: element.product.id})}}" class="btn btn-success">+</a>
                         <a href="{{path('cart_remove', {id: element.product.id})}}" class="btn btn-warning">-</a>
                         <a href="{{path('cart_delete', {id: element.product.id})}}" class="btn btn-danger">Supprimer</a>
                     </td>
@@ -46,7 +46,7 @@
                 <td colspan="3">Total</td>
                 <td>{{ total / 100 }}€</td>
                 <td>
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" id="cartEmpty">Vider le panier</button>
+                    <button class="btn btn-modal" data-bs-toggle="modal" data-bs-target="#exampleModal" id="cartEmpty">Vider le panier</button>
                 </td>
             </tr>
         </tfoot>
@@ -64,11 +64,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h5 class="text-center">Etes vous sur de vouloir vider le panier ?</h5>
+        <h5 class="text-center" style="color: black;">Etes vous sur de vouloir vider le panier ?</h5>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Fermer</button>
-        <a href="{{path('cart_empty')}}" class="btn btn-danger">Vider le panier</a>
+        <button type="button" class="btn btn-modal" data-bs-dismiss="modal">Fermer</button>
+        <a href="{{path('cart_empty')}}" class="btn btn-modal">Vider le panier</a>
       </div>
     </div>
   </div>

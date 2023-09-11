@@ -7,15 +7,6 @@
     {# on affiche les images si on est en edition #}
     {% if app.request.attributes.get('_route') == 'admin_products_edit' %}
         <h2>Images</h2>
-        {# {% for image in product.images %}
-            <div><img src="{{asset('assets/products/upload/mini/300x300-' ~ image.name)}}" alt="photo du produits"></div>
-            <a href="{{path('admin_products_delete_image', {id: image.id})}}" data-delete data-token="{{csrf_token('delete' ~ image.id)}}">Supprimer</a>
-        {% endfor %} #}
-
-{# {% for image in product.images %}
-    <div><img src="{{ asset('assets/upload/products/mini/300x-300-' ~ image.name) }}" alt="photo du produit"></div>
-    <a href="{{ path('admin_products_delete_image', { id: image.id }) }}"  data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
-{% endfor %} #}
 
 {% for image in product.images %}
     <div><img src="{{ asset('assets/upload/products/mini/300x-300-' ~ image.name) }}" alt="photo du produit">
@@ -24,10 +15,10 @@
 {% endfor %}
 
     {% endif %}
-    
+
     {{form_row(productForm.images)}}
 
-    <button type="submit" class="btn btn-primary">{{button_label|default('Ajouter')}}</button>
+    <button type="submit" class="btn btn-modal">{{button_label|default('Ajouter')}}</button>
 {{form_end(productForm)}}
 
 {% block javascript %}

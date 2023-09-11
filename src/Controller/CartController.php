@@ -53,9 +53,27 @@ class CartController extends AbstractController
         // on redirige ver la page du panier
         // return $this->redirectToRoute('cart_index');
         return $this->redirectToRoute('product_details', ['slug' => $product->getSlug()]);
+    }
+
+    #[Route('/more/{id}', name: 'more')]
+    public function more(Product $product, SessionInterface $session)
+    {
+        // onrecupere l'id du produit
+        $id = $product->getId();
+        // on recupere le panier existant
+        $panier = $session->get('panier', []);
+
+        //  on ajoute le produit dans le panier si il n'y ai pas encore
+        // sinon on incremente sa quantite
+        if(empty($panier[$id])){
+            $panier[$id] = 1;
+        } else {
+            $panier[$id]++;
+        }
 
 
-
+        $session->set('panier', $panier); 
+        return $this->redirectToRoute('cart_index');
     }
 
     #[Route('/remove/{id}', name: 'remove')]

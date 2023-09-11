@@ -1,0 +1,116 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #606060;
+    color: #F3F3F3;
+}
+
+.card {
+    display: flex;
+    background: #19ACBB;
+    color: #FCBF1B;
+    border: 1px solid white;
+}
+
+h1 {
+    text-decoration: underline;
+    color: #FCBF1B;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    text-underline-offset: 9px;
+    margin-left: 25%;
+}
+
+h2,
+h3 {
+    color: #FCBF1B;
+}
+
+.categorie {
+    margin-left: 10%;
+    margin-bottom: 50px;
+}
+
+.carte {
+    display: grid;
+    width: 25%;
+    margin: 10px;
+    margin-left: 4%;
+    margin-bottom: 30px;
+}
+
+.footer-text {
+    color: #F3F3F3;
+    background-color: #606060;
+}
+
+.img-commerce {
+    border-radius: 5px;
+    position: relative;
+    left: 32.5%;
+    top: -830px;
+    border: 1px solid white;
+}
+
+.btn {
+    color: #FCBF1B;
+    background: white;
+}
+
+.btn:hover {
+    background: rgba(203, 203, 203, 0.505);
+    color: #FCBF1B;
+}
+
+.card-text {
+    margin-bottom: 20px;
+}
+
+.btn-modal {
+    border: 1px solid #FCBF1B;
+}
+
+.btn-nav {
+    background: #F8F9FA;
+}
+
+.link-admin {
+    color: black;
+}
+
+.list-right {
+    margin-top: 100px;
+}
+
+.form-singup {
+
+    width: 30%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.form-check,
+.btn-register,
+.label-singup {
+    margin-left: 35%;
+}
+
+.legend-singup {
+    margin-left: 35%;
+    width: 50%;
+}
+
+.content {
+    width: 100vw;
+}
+
+.form-content {
+    width: 100vw;
+
+}
+
+
+.inscription {
+    margin-bottom: 60px;
+}

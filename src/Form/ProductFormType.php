@@ -60,8 +60,7 @@ class ProductFormType extends AbstractType
                             'maxWidthMessage' => "L'image doit faire {{ max_width }} pixels de large au maximum"
                         ])
                     )
-                ]
-
+                    ],
             ]);
     }
 

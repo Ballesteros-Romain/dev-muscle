@@ -3,21 +3,21 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <section class="container">
-        <div class="row">
-            <div class="col">
-            <h1>Inscription</h1>
+    <section class="content">
+        <div class="">
+            <div class="form-content">
+            <h1 class="inscription">Inscription</h1>
 
     {{ form_errors(registrationForm) }}
     {{ form_start(registrationForm) }}
     <fieldset class="mb-4">
-        <legend>Mon identité</legend>
+        <legend class="legend-singup">Mon identité</legend>
         {{ form_row(registrationForm.lastname) }}
         {{ form_row(registrationForm.firstname) }}
         {{ form_row(registrationForm.email) }}
     </fieldset>
     <fieldset class="mb-4">
-        <legend>Mes coordonnées</legend>
+        <legend class="legend-singup">Mes coordonnées</legend>
         {{ form_row(registrationForm.adress) }}
         {{ form_row(registrationForm.zipcode) }}
         {{ form_row(registrationForm.city) }}
@@ -28,8 +28,8 @@
         }) }}
         {{ form_row(registrationForm.RGPDConsent) }}
 
-        <button type="submit" class="btn btn-primary mt-4">M'inscrire</button>
-        <a href="{{path('app_login')}}" class="btn btn-secondary mt-4"> Me connecter</a>
+        <button type="submit" class="btn btn-secondary mt-4 btn-register">M'inscrire</button>
+        <a href="{{path('app_login')}}" class="btn btn-secondary link-register mt-4"> Me connecter</a>
     {{ form_end(registrationForm) }}
             </div>
         </div>
