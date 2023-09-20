@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $city = null;
 
     #[ORM\Column(type: 'boolean')]
-    private bool $is_verified=false ;
+    private bool $is_verified=false;
      
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $resetToken;
